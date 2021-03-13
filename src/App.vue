@@ -1,19 +1,26 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-</template>
-
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+/* eslint-disable no-new */
+import { defineComponent, onMounted, ref } from 'vue';
+import P5 from 'p5';
+
+import proun from '@/sketches/proun';
 
 export default defineComponent({
   name: 'App',
-  components: {
-    HelloWorld,
+  setup: () => {
+    const sketchContainer = ref({} as HTMLElement);
+    onMounted(() => new P5(proun(sketchContainer.value.offsetHeight,
+      sketchContainer.value.offsetWidth), sketchContainer.value));
+    return {
+      sketchContainer,
+    };
   },
 });
 </script>
+
+<template>
+  <div class="sketch-container" ref="sketchContainer" />
+</template>
 
 <style lang="scss">
 #app {
@@ -23,5 +30,10 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  .sketch-container {
+    height: 100vh;
+    width: 100vw;
+  }
 }
 </style>
