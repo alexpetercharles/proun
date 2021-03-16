@@ -1,43 +1,47 @@
 import { reactive, watch } from 'vue';
 import paper from 'paper';
 
-const paperState = reactive({
+import useKeys from '@/modules/useKeys';
+import drawShapes from '@/modules/drawShapes';
+
+const State = reactive({
+  Scope: {} as paper.PaperScope,
   canvas: {} as HTMLCanvasElement,
   backgroundBase64: '',
   backgroundOpacity: 100,
+  BackgroundRaster: {} as paper.Raster,
 });
 
 const usePaper = () => {
   const setupPaper = () => {
-    if (paperState.canvas) {
-      paper.setup(paperState.canvas);
+    if (State.canvas) {
+      State.Scope = new paper.PaperScope();
+      State.Scope.setup(State.canvas);
     }
   };
+
   const paperBackground = () => {
-    const raster = new paper.Raster(paperState.backgroundBase64);
-    raster.position = paper.view.center;
-    raster.sendToBack();
-    watch(() => paperState.backgroundOpacity, (opacity) => { raster.opacity = opacity / 100; });
-  };
-  const drawRectangle = () => {
-    const rect = new paper.Path();
-    let drawnCorners = 0;
-    rect.closed = true;
-    rect.fillColor = new paper.Color(0, 0, 0);
-    paperState.canvas.onmousedown = (event) => {
-      if (drawnCorners < 4) {
-        rect.add(new paper.Point(event.clientX, event.clientY));
-        drawnCorners += 1;
-      } else {
-        paperState.canvas.onmousedown = null;
+    State.BackgroundRaster = new State.Scope.Raster(State.backgroundBase64);
+    State.BackgroundRaster.position = State.Scope.view.center;
+    State.BackgroundRaster.sendToBack();
+    watch(() => State.backgroundOpacity, (opacity) => {
+      State.BackgroundRaster.opacity = opacity / 100;
+    });
+
+    const {
+      rectangle,
+    } = drawShapes(State.Scope, State.canvas, State.BackgroundRaster);
+    useKeys((shape: string) => {
+      if (shape === 'rect') {
+        rectangle();
       }
-    };
+    });
   };
+
   return {
     setupPaper,
-    paperState,
+    paperState: State,
     paperBackground,
-    drawRectangle,
   };
 };
 

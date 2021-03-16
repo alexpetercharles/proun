@@ -12,14 +12,12 @@ export default defineComponent({
       setupPaper,
       paperState,
       paperBackground,
-      drawRectangle,
     } = usePaper();
 
     onMounted(() => {
       if (paperContainer.value) {
         paperState.canvas = paperContainer.value;
         setupPaper();
-        drawRectangle();
       }
     });
 
