@@ -1,20 +1,43 @@
 <script lang="ts">
 /* eslint-disable no-new */
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+
+import usePaper from '@/modules/usePaper';
 
 export default defineComponent({
   name: 'App',
   setup: () => {
-    const sketchContainer = ref({} as HTMLElement);
+    const paperContainer = ref({} as HTMLCanvasElement);
+
+    const {
+      setupPaper,
+      paperState,
+      paperBackground,
+    } = usePaper();
+
+    onMounted(() => {
+      if (paperContainer.value) {
+        paperState.canvas = paperContainer.value;
+        setupPaper();
+      }
+    });
+
     const selectImage = (event: InputEvent) => {
       const { files } = event.target as HTMLInputElement;
       if (files) {
         const reader = new FileReader();
         reader.readAsDataURL(files[0]);
+        reader.addEventListener('load', () => {
+          if (reader.result) {
+            paperState.backgroundBase64 = reader.result.toString();
+            paperBackground();
+          }
+        });
       }
     };
+
     return {
-      sketchContainer,
+      paperContainer,
       selectImage,
     };
   },
@@ -22,15 +45,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="sketch-container" ref="sketchContainer">
     <div class="controls">
       <label for="image">background image:</label>
       <input id="image" type="file" accept="image/*" @change="selectImage" />
-      <label for="alpha">image opacity:</label>
-      <input id="alpha" type="range" min="0" max="255" v-model="prounState.imageAlpha"/>
     </div>
-  </div>
-  <div class="blur-test" />
+    <canvas class="paper-container" ref="paperContainer" />
 </template>
 
 <style lang="scss">
@@ -44,7 +63,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 
-  .sketch-container {
+  .paper-container {
     height: 100vh;
     width: 100vw;
   }
@@ -53,16 +72,6 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
-
-  .blur-test {
-    height: 10vh;
-    width: 10vh;
-    backdrop-filter: blur(100px);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 999;
   }
 }
 </style>
