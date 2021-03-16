@@ -22,18 +22,25 @@ const usePaper = () => {
 
   const paperBackground = () => {
     State.BackgroundRaster = new State.Scope.Raster(State.backgroundBase64);
-    State.BackgroundRaster.position = State.Scope.view.center;
-    State.BackgroundRaster.sendToBack();
+    State.BackgroundRaster.onLoad = () => {
+      State.BackgroundRaster.position = State.Scope.view.center;
+      State.BackgroundRaster.fitBounds(State.Scope.view.bounds as paper.Rectangle);
+      State.BackgroundRaster.sendToBack();
+    };
     watch(() => State.backgroundOpacity, (opacity) => {
       State.BackgroundRaster.opacity = opacity / 100;
     });
 
     const {
       rectangle,
+      circle,
     } = drawShapes(State.Scope, State.canvas, State.BackgroundRaster);
     useKeys((shape: string) => {
       if (shape === 'rect') {
         rectangle();
+      }
+      if (shape === 'circ') {
+        circle();
       }
     });
   };
