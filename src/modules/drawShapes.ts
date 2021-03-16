@@ -9,6 +9,13 @@ const drawShapes = (
 
   const getAverageFillColor = (shape: paper.Path) => BackgroundRaster.getAverageColor(shape);
 
+  const insertBelowEvent = (path: paper.Path) => {
+    path.onClick = () => {
+      path.insertBelow(lastPath);
+      lastPath = path;
+    };
+  };
+
   const rectangle = () => {
     const rect = new Scope.Path();
     rect.closed = true;
@@ -20,11 +27,9 @@ const drawShapes = (
         rect.fillColor = getAverageFillColor(rect);
       } else {
         canvas.onmousedown = null;
-        console.log(lastPath);
-        rect.insertBelow(lastPath);
-        lastPath = rect;
       }
     };
+    insertBelowEvent(rect);
   };
   const circle = () => {
     canvas.onmousedown = (event: MouseEvent) => {
@@ -38,12 +43,12 @@ const drawShapes = (
           circ.fillColor = BackgroundRaster.getAverageColor(
             new Scope.Point(event.clientX, event.clientY),
           );
-        }, 100);
+          insertBelowEvent(circ);
+        }, 30);
       };
       canvas.onmouseup = () => {
         clearInterval(mousedown);
-        circ.insertBelow(lastPath);
-        lastPath = circ;
+        insertBelowEvent(circ);
       };
     };
   };
