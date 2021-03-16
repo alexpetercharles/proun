@@ -8,17 +8,18 @@ export default defineComponent({
   name: 'App',
   setup: () => {
     const paperContainer = ref({} as HTMLCanvasElement);
-
     const {
       setupPaper,
       paperState,
       paperBackground,
+      drawRectangle,
     } = usePaper();
 
     onMounted(() => {
       if (paperContainer.value) {
         paperState.canvas = paperContainer.value;
         setupPaper();
+        drawRectangle();
       }
     });
 
@@ -39,6 +40,7 @@ export default defineComponent({
     return {
       paperContainer,
       selectImage,
+      paperState,
     };
   },
 });
@@ -48,6 +50,8 @@ export default defineComponent({
     <div class="controls">
       <label for="image">background image:</label>
       <input id="image" type="file" accept="image/*" @change="selectImage" />
+      <label for="opacity">background opacity:</label>
+      <input id="opacity" type="range" min="0" max="100" v-model="paperState.backgroundOpacity"/>
     </div>
     <canvas class="paper-container" ref="paperContainer" />
 </template>
@@ -72,6 +76,10 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 }
 </style>
