@@ -1,24 +1,30 @@
 # proun
 
-## Project setup
-```
-npm install
-```
+## About
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+proun is a tool made for my constructivism study
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### GIF
 
-### Lints and fixes files
-```
-npm run lint
-```
+![Demo Gif](demo.gif)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Usage
+
+install
+
+``` % npm install ```
+
+dev server
+
+``` % npm run serve ```
+
+bundle (./dist)
+
+``` % npm run build ```
+
+## Built With
+
+written in typescript following the airbnb style guide.
+
+* [paper.js](http://paperjs.org) -- 3d library
+* [vue3](https://v3.vuejs.org) -- frontend framework
