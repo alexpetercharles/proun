@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import usePaper from '@/modules/usePaper';
+import drawForm from '@/modes/form';
 
 export default defineComponent({
   name: 'App',
@@ -13,7 +13,7 @@ export default defineComponent({
     const {
       paperState,
       selectImage,
-    } = usePaper(paperContainer);
+    } = drawForm(paperContainer);
 
     return {
       paperContainer,

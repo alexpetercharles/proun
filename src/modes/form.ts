@@ -3,7 +3,7 @@ import {
 } from 'vue';
 import paper from 'paper';
 
-import useKeys from '@/modules/useKeys';
+import useKeys from '@/utils/useKeys';
 
 const State = reactive({
   Scope: {} as paper.PaperScope,
@@ -103,7 +103,7 @@ const paperBackground = () => {
   });
 };
 
-const usePaper = (paperContainer: Ref<HTMLCanvasElement>) => {
+const form = (paperContainer: Ref<HTMLCanvasElement>) => {
   onMounted(() => {
     if (paperContainer.value) {
       State.canvas = paperContainer.value;
@@ -130,4 +130,4 @@ const usePaper = (paperContainer: Ref<HTMLCanvasElement>) => {
   };
 };
 
-export default usePaper;
+export default form;
