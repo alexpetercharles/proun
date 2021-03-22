@@ -1,4 +1,6 @@
-import { reactive, watch } from 'vue';
+import {
+  reactive, Ref, watch, onMounted,
+} from 'vue';
 import paper from 'paper';
 
 import useKeys from '@/modules/useKeys';
@@ -69,43 +71,62 @@ const drawShapes = (
   };
 };
 
-const usePaper = () => {
-  const setupPaper = () => {
-    if (State.canvas) {
-      State.Scope = new paper.PaperScope();
-      State.Scope.setup(State.canvas);
+const setupPaper = () => {
+  if (State.canvas) {
+    State.Scope = new paper.PaperScope();
+    State.Scope.setup(State.canvas);
+  }
+};
+
+const paperBackground = () => {
+  State.BackgroundRaster = new State.Scope.Raster(State.backgroundBase64);
+  State.BackgroundRaster.onLoad = () => {
+    State.BackgroundRaster.position = State.Scope.view.center;
+    State.BackgroundRaster.fitBounds(State.Scope.view.bounds as paper.Rectangle);
+    State.BackgroundRaster.sendToBack();
+  };
+  watch(() => State.backgroundOpacity, (opacity) => {
+    State.BackgroundRaster.opacity = opacity / 100;
+  });
+
+  const {
+    rectangle,
+    circle,
+  } = drawShapes(State.Scope, State.canvas, State.BackgroundRaster);
+  useKeys((shape: string) => {
+    if (shape === 'rect') {
+      rectangle();
+    }
+    if (shape === 'circ') {
+      circle();
+    }
+  });
+};
+
+const usePaper = (paperContainer: Ref<HTMLCanvasElement>) => {
+  onMounted(() => {
+    if (paperContainer.value) {
+      State.canvas = paperContainer.value;
+      setupPaper();
+    }
+  });
+
+  const selectImage = (event: InputEvent) => {
+    const { files } = event.target as HTMLInputElement;
+    if (files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.addEventListener('load', () => {
+        if (reader.result) {
+          State.backgroundBase64 = reader.result.toString();
+          paperBackground();
+        }
+      });
     }
   };
-
-  const paperBackground = () => {
-    State.BackgroundRaster = new State.Scope.Raster(State.backgroundBase64);
-    State.BackgroundRaster.onLoad = () => {
-      State.BackgroundRaster.position = State.Scope.view.center;
-      State.BackgroundRaster.fitBounds(State.Scope.view.bounds as paper.Rectangle);
-      State.BackgroundRaster.sendToBack();
-    };
-    watch(() => State.backgroundOpacity, (opacity) => {
-      State.BackgroundRaster.opacity = opacity / 100;
-    });
-
-    const {
-      rectangle,
-      circle,
-    } = drawShapes(State.Scope, State.canvas, State.BackgroundRaster);
-    useKeys((shape: string) => {
-      if (shape === 'rect') {
-        rectangle();
-      }
-      if (shape === 'circ') {
-        circle();
-      }
-    });
-  };
-
   return {
-    setupPaper,
     paperState: State,
-    paperBackground,
+    selectImage,
   };
 };
 

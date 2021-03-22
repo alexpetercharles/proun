@@ -1,44 +1,25 @@
 <script lang="ts">
-/* eslint-disable no-new */
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import usePaper from '@/modules/usePaper';
 
 export default defineComponent({
   name: 'App',
   setup: () => {
+    const mode = ref('form');
+
     const paperContainer = ref({} as HTMLCanvasElement);
+
     const {
-      setupPaper,
       paperState,
-      paperBackground,
-    } = usePaper();
-
-    onMounted(() => {
-      if (paperContainer.value) {
-        paperState.canvas = paperContainer.value;
-        setupPaper();
-      }
-    });
-
-    const selectImage = (event: InputEvent) => {
-      const { files } = event.target as HTMLInputElement;
-      if (files) {
-        const reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.addEventListener('load', () => {
-          if (reader.result) {
-            paperState.backgroundBase64 = reader.result.toString();
-            paperBackground();
-          }
-        });
-      }
-    };
+      selectImage,
+    } = usePaper(paperContainer);
 
     return {
       paperContainer,
       selectImage,
       paperState,
+      mode,
     };
   },
 });
@@ -46,6 +27,11 @@ export default defineComponent({
 
 <template>
     <div class="controls">
+      <label for="mode">select mode:</label>
+      <select name="mode" id="mode" v-model="mode">
+        <option value="form">Form Only</option>
+        <option value="invert">Invert</option>
+      </select>
       <label for="image">background image:</label>
       <input id="image" type="file" accept="image/*" @change="selectImage" />
       <label for="opacity">background opacity:</label>
