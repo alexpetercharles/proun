@@ -1,30 +1,24 @@
 # proun
 
-## About
+## Project setup
+```
+npm install
+```
 
-proun is a tool made for my constructivism study
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-### GIF
+### Compiles and minifies for production
+```
+npm run build
+```
 
-![Demo Gif](demo.gif)
+### Lints and fixes files
+```
+npm run lint
+```
 
-## Usage
-
-install
-
-``` % npm install ```
-
-dev server
-
-``` % npm run serve ```
-
-bundle (./dist)
-
-``` % npm run build ```
-
-## Built With
-
-written in typescript following the airbnb style guide.
-
-* [paper.js](http://paperjs.org) -- 3d library
-* [vue3](https://v3.vuejs.org) -- frontend framework
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
