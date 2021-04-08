@@ -1,19 +1,21 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Resizable from './components/Resizable.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld,
+    Resizable,
   },
 });
 </script>
+
+<template>
+  <resizable />
+  <resizable />
+  <resizable />
+  <resizable />
+</template>
 
 <style lang="scss">
 #app {
@@ -23,5 +25,8 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  height: 100vh;
+  width: 100vw;
 }
 </style>
