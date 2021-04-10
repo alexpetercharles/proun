@@ -1,20 +1,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Resizable from './components/Resizable.vue';
+import Drawable from './components/Drawable.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Resizable,
+    Drawable,
   },
 });
 </script>
 
 <template>
-  <resizable />
-  <resizable />
-  <resizable />
-  <resizable />
+  <drawable />
 </template>
 
 <style lang="scss">

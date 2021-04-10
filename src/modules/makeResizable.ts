@@ -1,7 +1,6 @@
-const makeResizable = (element: HTMLElement): void => {
-  const resizable = element;
+const makeResizable = (drawable: HTMLElement): void => {
   const minimumSize = 20;
-  const resizers = element.querySelectorAll('.resizer');
+  const resizers = drawable.querySelectorAll('.resizer');
 
   let originalWidth: number;
   let originalHeight: number;
@@ -19,34 +18,34 @@ const makeResizable = (element: HTMLElement): void => {
       const width = originalWidth - (event.pageX - originalMouseX);
       const height = originalHeight - (event.pageY - originalMouseY);
       if (width > minimumSize) {
-        resizable.style.width = `${width}px`;
-        resizable.style.left = `${originalX + (event.pageX - originalMouseX)}px`;
+        drawable.style.width = `${width}px`;
+        drawable.style.left = `${originalX + (event.pageX - originalMouseX)}px`;
       }
       if (height > minimumSize) {
-        resizable.style.height = `${height}px`;
-        resizable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
+        drawable.style.height = `${height}px`;
+        drawable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
       }
     } else if (classList.includes('top-right')) {
       const width = originalWidth + (event.pageX - originalMouseX);
       const height = originalHeight - (event.pageY - originalMouseY);
-      if (width > minimumSize) { resizable.style.width = `${width}px`; }
+      if (width > minimumSize) { drawable.style.width = `${width}px`; }
       if (height > minimumSize) {
-        resizable.style.height = `${height}px`;
-        resizable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
+        drawable.style.height = `${height}px`;
+        drawable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
       }
     } else if (classList.includes('bottom-left')) {
       const height = originalHeight + (event.pageY - originalMouseY);
       const width = originalWidth - (event.pageX - originalMouseX);
-      if (height > minimumSize) { resizable.style.height = `${height}px`; }
+      if (height > minimumSize) { drawable.style.height = `${height}px`; }
       if (width > minimumSize) {
-        resizable.style.width = `${width}px`;
-        resizable.style.left = `${originalX + (event.pageX - originalMouseX)}px`;
+        drawable.style.width = `${width}px`;
+        drawable.style.left = `${originalX + (event.pageX - originalMouseX)}px`;
       }
     } else { // bottom-right
       const width = originalWidth + (event.pageX - originalMouseX);
       const height = originalHeight + (event.pageY - originalMouseY);
-      if (width > minimumSize) { resizable.style.width = `${width}px`; }
-      if (height > minimumSize) { resizable.style.height = `${height}px`; }
+      if (width > minimumSize) { drawable.style.width = `${width}px`; }
+      if (height > minimumSize) { drawable.style.height = `${height}px`; }
     }
   };
 
@@ -58,10 +57,10 @@ const makeResizable = (element: HTMLElement): void => {
     resizer.addEventListener('mousedown', (event) => {
       currentResizer = resizer;
       event.preventDefault();
-      originalWidth = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
-      originalHeight = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
-      originalX = element.getBoundingClientRect().left;
-      originalY = element.getBoundingClientRect().top;
+      originalWidth = drawable.offsetWidth;
+      originalHeight = drawable.offsetHeight;
+      originalX = drawable.getBoundingClientRect().left;
+      originalY = drawable.getBoundingClientRect().top;
       originalMouseX = (event as MouseEvent).pageX;
       originalMouseY = (event as MouseEvent).pageY;
       window.addEventListener('mousemove', resize);
