@@ -20,5 +20,7 @@ module.exports = {
       2
     ],
     'no-param-reassign': 'off',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error']
   },
 };
