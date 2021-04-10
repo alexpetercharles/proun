@@ -25,6 +25,11 @@ const makeResizable = (drawable: HTMLElement): void => {
         drawable.style.height = `${height}px`;
         drawable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
       }
+      if (drawable.classList.contains('triangle')) {
+        drawable.style.borderBottomWidth = `${height / 4}px`;
+        drawable.style.borderRightWidth = `${height / 4}px`;
+        drawable.style.borderLeftWidth = `${height / 4}px`;
+      }
     } else if (classList.includes('top-right')) {
       const width = originalWidth + (event.pageX - originalMouseX);
       const height = originalHeight - (event.pageY - originalMouseY);
@@ -32,6 +37,11 @@ const makeResizable = (drawable: HTMLElement): void => {
       if (height > minimumSize) {
         drawable.style.height = `${height}px`;
         drawable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
+      }
+      if (drawable.classList.contains('triangle')) {
+        drawable.style.borderBottomWidth = `${height / 4}px`;
+        drawable.style.borderRightWidth = `${height / 4}px`;
+        drawable.style.borderLeftWidth = `${height / 4}px`;
       }
     } else if (classList.includes('bottom-left')) {
       const height = originalHeight + (event.pageY - originalMouseY);

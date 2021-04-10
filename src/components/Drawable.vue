@@ -1,38 +1,61 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
 
 import makeResizable from '@/modules/makeResizable';
 import makeDragable from '@/modules/makeDragable';
+import makeRotatable from '@/modules/makeRotatable';
+
+import Shapes from '@/enums/Shapes';
 
 export default defineComponent({
   name: 'Drawable',
-  setup() {
+  props: {
+    shape: Number,
+  },
+  setup(props) {
     const drawable = ref({} as HTMLElement);
     const makeDrawable = () => {
       makeResizable(drawable.value);
       makeDragable(drawable.value);
+      makeRotatable(drawable.value);
     };
     onMounted(() => { if (drawable.value) { makeDrawable(); } });
-    return { drawable };
+    const shapeClass = computed(() => {
+      switch (props.shape) {
+        case Shapes.Triangle: return 'triangle';
+        case Shapes.Circle: return 'circle';
+        default: return '';
+      }
+    });
+    const selected = ref(false);
+    const toggleSelection = () => { selected.value = !selected.value; };
+    return {
+      drawable,
+      shapeClass,
+      selected,
+      toggleSelection,
+    };
   },
 });
 </script>
 
 <template>
-  <div class="drawable" ref="drawable">
-    <div class="resizers">
+  <div class="drawable" :class="shapeClass" ref="drawable" @click="toggleSelection">
+    <div class="resizers" v-show="selected">
       <div class="resizer tool top-left" />
       <div class="resizer tool top-right" />
       <div class="resizer tool bottom-left" />
       <div class="resizer tool bottom-right" />
     </div>
-    <div class="rotator tool" />
+    <div class="rotator tool" v-show="selected" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .drawable {
-  background: black;
+  backdrop-filter: invert(100%);
 
   width: 100px;
   height: 100px;
@@ -42,6 +65,21 @@ export default defineComponent({
   left: 100px;
 
   cursor: move;
+
+  &.triangle {
+    width: 0;
+    height: 0;
+    background: none;
+    $size: 2.5vw;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+
+    border-bottom: $size solid white;
+  }
+
+  &.circle {
+    border-radius: 50%;
+  }
 
   .resizers {
     width: 100%;
