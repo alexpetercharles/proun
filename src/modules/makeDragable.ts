@@ -9,7 +9,7 @@ const makeDragable = (drawable: HTMLElement): void => {
   };
 
   drawable.addEventListener('mousedown', (event) => {
-    if (!(event.target as HTMLElement).classList.contains('resizer')) {
+    if (!(event.target as HTMLElement).classList.contains('tool')) {
       window.addEventListener('mousemove', drag);
       window.addEventListener('mouseup', stopDrag);
     }

@@ -20,12 +20,13 @@ export default defineComponent({
 
 <template>
   <div class="drawable" ref="drawable">
-    <div class='resizers'>
-      <div class='resizer top-left' />
-      <div class='resizer top-right' />
-      <div class='resizer bottom-left' />
-      <div class='resizer bottom-right' />
+    <div class="resizers">
+      <div class="resizer tool top-left" />
+      <div class="resizer tool top-right" />
+      <div class="resizer tool bottom-left" />
+      <div class="resizer tool bottom-right" />
     </div>
+    <div class="rotator tool" />
   </div>
 </template>
 
@@ -60,6 +61,19 @@ export default defineComponent({
       &.bottom-left { left: -5px; bottom: -5px; cursor: nesw-resize; }
       &.bottom-right { right: -5px; bottom: -5px; cursor: nwse-resize; }
     }
+  }
+
+  .rotator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4286f4;
+    border: 3px solid #4286f4;
+
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    cursor: crosshair;
   }
 }
 </style>
