@@ -10,16 +10,10 @@ export default defineComponent({
     Drawable,
   },
   setup() {
-    type drawalbeProp = {
-      key: number,
-      shape: number,
-    }
+    type drawalbeProp = { key: number, shape: number, }
     const drawables = ref([] as drawalbeProp[]);
     let key = 0;
-    const draw = (shape: number) => {
-      drawables.value.push({ key, shape });
-      key += 1;
-    };
+    const draw = (shape: number) => { drawables.value.push({ key, shape }); key += 1; };
 
     const backgroundSource = ref('');
     const changeBackground = (target: HTMLInputElement) => {
@@ -28,17 +22,12 @@ export default defineComponent({
         const reader = new FileReader();
         reader.readAsDataURL(files[0]);
         reader.addEventListener('load', () => {
-          if (reader.result) {
-            backgroundSource.value = reader.result.toString();
-          }
+          if (reader.result) { backgroundSource.value = reader.result.toString(); }
         });
       }
     };
     return {
-      draw,
-      drawables,
-      changeBackground,
-      backgroundSource,
+      draw, drawables, changeBackground, backgroundSource,
     };
   },
 });
