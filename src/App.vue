@@ -1,12 +1,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import ToolBar from '@/components/ToolBar.vue';
-import Drawable from './components/Drawable.vue';
+import ColorBar from '@/components/ColorBar.vue';
+import Drawable from '@/components/Drawable.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     ToolBar,
+    ColorBar,
     Drawable,
   },
   setup() {
@@ -37,6 +39,7 @@ export default defineComponent({
   <tool-bar @draw="draw" @background-change="changeBackground"  />
   <img class="background" :src="backgroundSource" />
   <drawable v-for="drawable in drawables" v-bind:key="drawable.key" :shape="drawable.shape" />
+  <color-bar />
 </template>
 
 <style lang="scss">
