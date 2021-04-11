@@ -15,6 +15,11 @@ export default defineComponent({
 
 <template>
   <div class="toolbar" ref="toolbar">
+    <label class="tool file">
+        <input type="file" accept="image/*"
+          @change="$emit('background-change', $event.target)"/>
+        <img src="../assets/logos/img.png" />
+    </label>
     <!--<div class="tool triangle" @click="$emit('draw', Shapes.Triangle)"  />-->
     <div class="tool square" @click="$emit('draw', Shapes.Square)" />
     <div class="tool circle" @click="$emit('draw', Shapes.Circle)" />
@@ -43,6 +48,12 @@ export default defineComponent({
     background-color: white;
     margin-bottom: 2vh;
 
+    &.file {
+      background: none;
+      position: absolute;
+      top: 2vh;
+    }
+
     &.triangle {
       width: 0;
       height: 0;
@@ -56,6 +67,15 @@ export default defineComponent({
 
     &.circle {
       border-radius: 50%;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    img {
+      width: 105%;
+      object-fit: contain;
     }
   }
 }

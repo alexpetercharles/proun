@@ -20,14 +20,33 @@ export default defineComponent({
       drawables.value.push({ key, shape });
       key += 1;
     };
-    return { draw, drawables };
+
+    const backgroundSource = ref('');
+    const changeBackground = (target: HTMLInputElement) => {
+      const { files } = target;
+      if (files) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.addEventListener('load', () => {
+          if (reader.result) {
+            backgroundSource.value = reader.result.toString();
+          }
+        });
+      }
+    };
+    return {
+      draw,
+      drawables,
+      changeBackground,
+      backgroundSource,
+    };
   },
 });
 </script>
 
 <template>
-  <tool-bar @draw=draw />
-  <img class="background" src="./assets/test.jpg" />
+  <tool-bar @draw="draw" @background-change="changeBackground"  />
+  <img class="background" :src="backgroundSource" />
   <drawable v-for="drawable in drawables" v-bind:key="drawable.key" :shape="drawable.shape" />
 </template>
 
@@ -52,8 +71,9 @@ body {
   align-items: center;
 
   .background {
-    height: 90%;
+    height: 80%;
     user-select: none;
+    margin-top: -5vh;
   }
 }
 </style>
