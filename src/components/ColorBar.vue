@@ -1,22 +1,32 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+
+import Colors from '@/enums/Colors';
 
 export default defineComponent({
   name: 'ColorBar',
+  setup() {
+    const colors = ref(Object.values(Colors));
+    return {
+      colors,
+    };
+  },
 });
 </script>
 
 <template>
   <div class="colorbar" ref="colorbar">
-    <div class="color orange" @click="$emit('draw', Shapes.Triangle)"  />
-    <div class="color yellow" @click="$emit('draw', Shapes.Square)" />
+    <div v-for="color in colors"
+      v-bind:key="color" class="color"
+      :style="`--color: ${color}`"
+      @click="$emit('color', color)"  />x
   </div>
 </template>
 
 <style lang="scss" scoped>
 .colorbar {
   width: 100vw;
-  height: 3vh;
+  height: 5vh;
 
   position: absolute;
   bottom: 0;
@@ -33,13 +43,7 @@ export default defineComponent({
 
     cursor: pointer;
 
-    &.orange {
-      background-color: orange;
-    }
-
-    &.yellow {
-      background-color: lime;
-    }
+    background-color: var(--color);
   }
 }
 </style>

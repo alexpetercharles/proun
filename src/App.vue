@@ -4,6 +4,8 @@ import ToolBar from '@/components/ToolBar.vue';
 import ColorBar from '@/components/ColorBar.vue';
 import Drawable from '@/components/Drawable.vue';
 
+import Colors from '@/enums/Colors';
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -12,10 +14,28 @@ export default defineComponent({
     Drawable,
   },
   setup() {
-    type drawalbeProp = { key: number, shape: number, }
-    const drawables = ref([] as drawalbeProp[]);
+    type drawableProp = { key: number, shape: number, selected: boolean, color: string, }
+    const drawables = ref([] as drawableProp[]);
     let key = 0;
-    const draw = (shape: number) => { drawables.value.push({ key, shape }); key += 1; };
+
+    const drawDrawable = (shape: number) => {
+      drawables.value.push({
+        key, shape, selected: true, color: Colors.CFFFFFF,
+      }); key += 1;
+    };
+
+    const selectDrawable = (i: number) => {
+      const drawable = drawables.value[i];
+      drawable.selected = !drawable.selected;
+    };
+
+    const changeDrawableColor = (color: string) => {
+      drawables.value.forEach((drawable) => {
+        if (drawable.selected) {
+          drawable.color = color;
+        }
+      });
+    };
 
     const backgroundSource = ref('');
     const changeBackground = (target: HTMLInputElement) => {
@@ -29,17 +49,27 @@ export default defineComponent({
       }
     };
     return {
-      draw, drawables, changeBackground, backgroundSource,
+      drawDrawable,
+      selectDrawable,
+      changeDrawableColor,
+      drawables,
+      changeBackground,
+      backgroundSource,
     };
   },
 });
 </script>
 
 <template>
-  <tool-bar @draw="draw" @background-change="changeBackground"  />
+  <tool-bar @draw="drawDrawable" @background-change="changeBackground"  />
   <img class="background" :src="backgroundSource" />
-  <drawable v-for="drawable in drawables" v-bind:key="drawable.key" :shape="drawable.shape" />
-  <color-bar />
+  <drawable v-for="drawable in drawables"
+    v-bind:key="drawable.key"
+    :shape="drawable.shape"
+    :selected="drawable.selected"
+    :color="drawable.color"
+    @select="selectDrawable(drawable.key)" />
+  <color-bar @color="changeDrawableColor" />
 </template>
 
 <style lang="scss">

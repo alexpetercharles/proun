@@ -13,6 +13,8 @@ export default defineComponent({
   name: 'Drawable',
   props: {
     shape: Number,
+    selected: Boolean,
+    color: String,
   },
   setup(props) {
     const drawable = ref({} as HTMLElement);
@@ -29,20 +31,19 @@ export default defineComponent({
         default: return '';
       }
     });
-    const selected = ref(false);
-    const toggleSelection = () => { selected.value = !selected.value; };
     return {
       drawable,
       shapeClass,
-      selected,
-      toggleSelection,
     };
   },
 });
 </script>
 
 <template>
-  <div class="drawable" :class="shapeClass" ref="drawable" @click="toggleSelection">
+  <div class="drawable background" ref="drawable"
+    :class="shapeClass"
+    :style="`--color: ${color}`"
+    @click="$emit('select')">
     <div class="resizers" v-show="selected">
       <div class="resizer tool top-left" />
       <div class="resizer tool top-right" />
@@ -55,16 +56,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .drawable {
-  backdrop-filter: invert(100%);
-
-  width: 100px;
-  height: 100px;
+  width: 10vh;
+  height: 10vh;
 
   position: absolute;
-  top: 100px;
-  left: 100px;
+  top: 30vh;
+  left: 30vh;
 
   cursor: move;
+
+  &.background {
+    content: '';
+    background: var(--color);
+    mix-blend-mode: difference;
+  }
 
   &.triangle {
     width: 0;
