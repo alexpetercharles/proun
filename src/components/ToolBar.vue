@@ -18,7 +18,7 @@ export default defineComponent({
     <label class="tool file">
         <input type="file" accept="image/*"
           @change="$emit('background-change', $event.target)"/>
-        <img src="../assets/logos/img.png" />
+        <img src="../assets/icons/img.png" />
     </label>
     <!--<div class="tool triangle" @click="$emit('draw', Shapes.Triangle)"  />-->
     <div class="tool square" @click="$emit('draw', Shapes.Square)" />

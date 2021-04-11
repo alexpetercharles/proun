@@ -62,6 +62,7 @@ export default defineComponent({
 
 <template>
   <tool-bar @draw="drawDrawable" @background-change="changeBackground"  />
+  <span class="title"><h1>proun</h1></span>
   <img class="background" :src="backgroundSource" />
   <drawable v-for="drawable in drawables"
     v-bind:key="drawable.key"
@@ -70,18 +71,29 @@ export default defineComponent({
     :color="drawable.color"
     @select="selectDrawable(drawable.key)" />
   <color-bar @color="changeDrawableColor" />
+  <span class="logo"><img src="./assets/tape.png" /></span>
 </template>
 
 <style lang="scss">
-body {
-  margin: 0;
+body { margin: 0; }
+
+@font-face {
+  font-family: 'Bandeins-Strange';
+  src: url('./assets/fonts/BandeinsStrangeVariable.woff2') format('woff2 supports variations'),
+       url('./assets/fonts/BandeinsStrangeVariable.woff2') format('woff2-variations');
+  font-stretch: 100% 800%;
+  font-weight: 200 800;
+  font-display: block;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100vw;
+
+  color: white;
 
   background-color: black;
 
@@ -92,10 +104,35 @@ body {
   justify-content: center;
   align-items: center;
 
+  h1 {
+    font-family: 'Bandeins-Strange';
+    font-size: 180%;
+    font-weight: 400;
+    font-stretch: 800%;
+
+    margin: 0;
+  }
+
+  .title {
+    position: absolute;
+    top: 1.3vh;
+    left: 8vh;
+  }
+
   .background {
     height: 80%;
     user-select: none;
     margin-top: -5vh;
+  }
+
+  .logo {
+    height: 3vh;
+    position: absolute;
+    right: 2vh;
+    bottom: 3vh;
+    img {
+      height: 100%;
+    }
   }
 }
 </style>

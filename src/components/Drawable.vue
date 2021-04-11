@@ -40,7 +40,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="drawable background" ref="drawable"
+  <div class="drawable color" ref="drawable"
     :class="shapeClass"
     :style="`--color: ${color}`"
     @click="$emit('select')">
@@ -65,7 +65,7 @@ export default defineComponent({
 
   cursor: move;
 
-  &.background {
+  &.color {
     content: '';
     background: var(--color);
     mix-blend-mode: difference;

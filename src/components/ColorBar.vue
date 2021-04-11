@@ -19,14 +19,14 @@ export default defineComponent({
     <div v-for="color in colors"
       v-bind:key="color" class="color"
       :style="`--color: ${color}`"
-      @click="$emit('color', color)"  />x
+      @click="$emit('color', color)"  />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .colorbar {
   width: 100vw;
-  height: 5vh;
+  height: 6vw;
 
   position: absolute;
   bottom: 0;
@@ -39,7 +39,8 @@ export default defineComponent({
   .color {
     height: 100%;
 
-    flex-grow: 1;
+    width: 4vh;
+    height: 4vh;
 
     cursor: pointer;
 
