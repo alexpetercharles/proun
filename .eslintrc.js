@@ -14,13 +14,13 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'indent': 'off',
+    indent: 'off',
     '@typescript-eslint/indent': [
       'error',
-      2
+      2,
     ],
     'no-param-reassign': 'off',
     'no-shadow': 'off',
-    '@typescript-eslint/no-shadow': ['error']
+    '@typescript-eslint/no-shadow': ['error'],
   },
 };

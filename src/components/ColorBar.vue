@@ -26,7 +26,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .colorbar {
   width: 100vw;
-  height: 6vw;
+  height: 60px;
 
   position: absolute;
   bottom: 0;
@@ -39,8 +39,8 @@ export default defineComponent({
   .color {
     height: 100%;
 
-    width: 4vh;
-    height: 4vh;
+    width: 30px;
+    height: 30px;
 
     cursor: pointer;
 

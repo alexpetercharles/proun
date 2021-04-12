@@ -106,7 +106,7 @@ body { margin: 0; }
 
   h1 {
     font-family: 'Bandeins-Strange';
-    font-size: 180%;
+    font-size: 1.5rem;
     font-weight: 400;
     font-stretch: 800%;
 
@@ -114,22 +114,21 @@ body { margin: 0; }
   }
 
   .title {
-    position: absolute;
-    top: 1.3vh;
-    left: 8vh;
+    position: fixed;
+    top: 30px;
+    left: 60px;
   }
 
   .background {
     height: 80%;
     user-select: none;
-    margin-top: -5vh;
   }
 
   .logo {
-    height: 3vh;
+    height: 25px;
     position: absolute;
-    right: 2vh;
-    bottom: 3vh;
+    right: 15px;
+    bottom: 15px;
     img {
       height: 100%;
     }

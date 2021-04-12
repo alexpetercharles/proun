@@ -28,11 +28,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .toolbar {
-  height: 100vh;
-  width: 6vw;
+  height: 96vh;
+  width: 60px;
 
   position: absolute;
   left: 0;
+  top: 4vh;
 
   display: flex;
   flex-direction: column;
@@ -40,8 +41,8 @@ export default defineComponent({
   align-items: center;
 
   .tool {
-    height: 2vw;
-    width: 2vw;
+    height: 30px;
+    width: 30px;
 
     cursor: pointer;
 
@@ -50,8 +51,8 @@ export default defineComponent({
 
     &.file {
       background: none;
-      position: absolute;
-      top: 2vh;
+      position: fixed;
+      top: 30px;
     }
 
     &.triangle {
@@ -74,8 +75,7 @@ export default defineComponent({
     }
 
     img {
-      width: 105%;
-      object-fit: contain;
+      width: 120%;
     }
   }
 }
