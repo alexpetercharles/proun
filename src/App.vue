@@ -14,13 +14,14 @@ export default defineComponent({
     Drawable,
   },
   setup() {
-    type drawableProp = { key: number, shape: number, selected: boolean, color: string, }
+    type drawableProp = {
+      key: number, shape: number, selected: boolean, color: string, relative: boolean, }
     const drawables = ref([] as drawableProp[]);
     let key = 0;
 
     const drawDrawable = (shape: number) => {
       drawables.value.push({
-        key, shape, selected: true, color: Colors.CFFFFFF,
+        key, shape, selected: true, color: Colors.CFFFFFF, relative: false,
       }); key += 1;
     };
 
@@ -69,6 +70,7 @@ export default defineComponent({
     :shape="drawable.shape"
     :selected="drawable.selected"
     :color="drawable.color"
+    :relative="drawable.relative"
     @select="selectDrawable(drawable.key)" />
   <color-bar @color="changeDrawableColor" />
   <span class="logo"><img src="./assets/tape.png" /></span>

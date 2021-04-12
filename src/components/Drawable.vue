@@ -20,12 +20,14 @@ export default defineComponent({
   },
   setup(props) {
     const drawable = ref({} as HTMLElement);
-    const makeDrawable = () => {
-      makeResizable(drawable.value);
-      makeDragable(drawable.value);
-      makeRotatable(drawable.value);
-    };
-    onMounted(() => { if (drawable.value) { makeDrawable(); } });
+    if (!props.relative) {
+      const makeDrawable = () => {
+        makeResizable(drawable.value);
+        makeDragable(drawable.value);
+        makeRotatable(drawable.value);
+      };
+      onMounted(() => { if (drawable.value) { makeDrawable(); } });
+    }
     const position = computed(() => (props.relative ? 'relative' : ''));
     return {
       drawable,
@@ -42,7 +44,7 @@ export default defineComponent({
     :style="`--color: ${color}`"
     @click="$emit('select')">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
-      <rect v-if="shape === Shapes.Rectangle" class="geometry"/>
+      <rect v-if="shape === Shapes.Rectangle" class="geometry" height="100%" width="100%"/>
       <circle v-if="shape === Shapes.Circle" cx="500" cy="500" r="500" class="geometry" />
       <polygon v-if="shape === Shapes.Triangle" class="geometry"
         points="126.899 136.5 128.423 138.024 873.5 883.101 873.5 136.5 126.899 136.5"/>
