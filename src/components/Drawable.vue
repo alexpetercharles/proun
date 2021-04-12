@@ -39,11 +39,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="drawable color" ref="drawable"
+  <div class="drawable" ref="drawable"
     :class="position"
     :style="`--color: ${color}`"
     @click="$emit('select')">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" :preserveAspectRatio="shape === Shapes.Circle ? 'align' : 'none'">
       <rect v-if="shape === Shapes.Rectangle" class="geometry" height="100%" width="100%"/>
       <circle v-if="shape === Shapes.Circle" cx="500" cy="500" r="500" class="geometry" />
       <polygon v-if="shape === Shapes.Triangle" class="geometry"
@@ -82,9 +82,6 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     .geometry {
-      width: 100%;
-      height: 100%;
-
       fill: var(--color);
       mix-blend-mode: difference;
     }
