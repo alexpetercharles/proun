@@ -1,6 +1,7 @@
 <script lang="ts">
 import {
-  computed, defineComponent, onMounted, ref,
+  computed,
+  defineComponent, onMounted, ref,
 } from 'vue';
 
 import makeResizable from '@/modules/makeResizable';
@@ -15,6 +16,7 @@ export default defineComponent({
     shape: Number,
     selected: Boolean,
     color: String,
+    relative: Boolean,
   },
   setup(props) {
     const drawable = ref({} as HTMLElement);
@@ -24,16 +26,11 @@ export default defineComponent({
       makeRotatable(drawable.value);
     };
     onMounted(() => { if (drawable.value) { makeDrawable(); } });
-    const shapeClass = computed(() => {
-      switch (props.shape) {
-        case Shapes.Triangle: return 'triangle';
-        case Shapes.Circle: return 'circle';
-        default: return '';
-      }
-    });
+    const position = computed(() => (props.relative ? 'relative' : ''));
     return {
       drawable,
-      shapeClass,
+      position,
+      Shapes,
     };
   },
 });
@@ -41,9 +38,17 @@ export default defineComponent({
 
 <template>
   <div class="drawable color" ref="drawable"
-    :class="shapeClass"
+    :class="position"
     :style="`--color: ${color}`"
     @click="$emit('select')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+      <rect v-if="shape === Shapes.Rectangle" class="geometry"/>
+      <circle v-if="shape === Shapes.Circle" cx="500" cy="500" r="500" class="geometry" />
+      <polygon v-if="shape === Shapes.Triangle" class="geometry"
+        points="126.899 136.5 128.423 138.024 873.5 883.101 873.5 136.5 126.899 136.5"/>
+      <polygon v-if="shape === Shapes.Rombus" class="geometry"
+        points="352.732 203.897 946 203.897 648.155 794.743 54.888 794.743 352.732 203.897"/>
+    </svg>
     <div class="resizers" v-show="selected">
       <div class="resizer tool top-left" />
       <div class="resizer tool top-right" />
@@ -65,25 +70,22 @@ export default defineComponent({
 
   cursor: move;
 
-  &.color {
-    content: '';
-    background: var(--color);
-    mix-blend-mode: difference;
+  &.relative {
+    position: relative;
+    top: 0;
+    left: 0;
   }
 
-  &.triangle {
-    width: 0;
-    height: 0;
-    background: none;
-    $size: 2.5vw;
-    border-left: $size solid transparent;
-    border-right: $size solid transparent;
+  svg {
+    width: 100%;
+    height: 100%;
+    .geometry {
+      width: 100%;
+      height: 100%;
 
-    border-bottom: $size solid white;
-  }
-
-  &.circle {
-    border-radius: 50%;
+      fill: var(--color);
+      mix-blend-mode: difference;
+    }
   }
 
   .resizers {

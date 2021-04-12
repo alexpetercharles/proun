@@ -1,3 +1,3 @@
-enum Shapes { Square, Triangle, Circle }
+enum Shapes { Rectangle, Triangle, Circle, Rombus }
 
 export default Shapes;

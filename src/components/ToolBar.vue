@@ -1,13 +1,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import Drawable from '@/components/Drawable.vue';
+
 import Shapes from '@/enums/Shapes';
+import Colors from '@/enums/Colors';
 
 export default defineComponent({
   name: 'Toolbar',
+  components: {
+    Drawable,
+  },
   setup() {
     return {
       Shapes,
+      Colors,
     };
   },
 });
@@ -20,9 +27,26 @@ export default defineComponent({
           @change="$emit('background-change', $event.target)"/>
         <img src="../assets/icons/img.png" />
     </label>
-    <!--<div class="tool triangle" @click="$emit('draw', Shapes.Triangle)"  />-->
-    <div class="tool square" @click="$emit('draw', Shapes.Square)" />
-    <div class="tool circle" @click="$emit('draw', Shapes.Circle)" />
+    <drawable class="tool"
+      :shape="Shapes.Triangle"
+      :color="Colors.CFFFFFF"
+      :relative="true"
+      @click="$emit('draw', Shapes.Triangle)"  />
+    <drawable class="tool"
+      :shape="Shapes.Rectangle"
+      :color="Colors.CFFFFFF"
+      :relative="true"
+      @click="$emit('draw', Shapes.Rectangle)" />
+    <drawable class="tool"
+      :shape="Shapes.Circle"
+      :color="Colors.CFFFFFF"
+      :relative="true"
+      @click="$emit('draw', Shapes.Circle)" />
+    <drawable class="tool"
+    :shape="Shapes.Rombus"
+    :color="Colors.CFFFFFF"
+    :relative="true"
+    @click="$emit('draw', Shapes.Rombus)" />
   </div>
 </template>
 
@@ -45,8 +69,6 @@ export default defineComponent({
     width: 30px;
 
     cursor: pointer;
-
-    background-color: white;
     margin-bottom: 2vh;
 
     &.file {
