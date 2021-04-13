@@ -1,10 +1,11 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+
 import ToolBar from '@/components/ToolBar.vue';
 import ColorBar from '@/components/ColorBar.vue';
 import Drawable from '@/components/Drawable.vue';
 
-import Colors from '@/enums/Colors';
+import draw from '@/modules/draw';
 
 export default defineComponent({
   name: 'App',
@@ -14,29 +15,12 @@ export default defineComponent({
     Drawable,
   },
   setup() {
-    type drawableProp = {
-      key: number, shape: number, selected: boolean, color: string, relative: boolean, }
-    const drawables = ref([] as drawableProp[]);
-    let key = 0;
-
-    const drawDrawable = (shape: number) => {
-      drawables.value.push({
-        key, shape, selected: true, color: Colors.CFFFFFF, relative: false,
-      }); key += 1;
-    };
-
-    const selectDrawable = (i: number) => {
-      const drawable = drawables.value[i];
-      drawable.selected = !drawable.selected;
-    };
-
-    const changeDrawableColor = (color: string) => {
-      drawables.value.forEach((drawable) => {
-        if (drawable.selected) {
-          drawable.color = color;
-        }
-      });
-    };
+    const {
+      drawables,
+      drawDrawable,
+      selectDrawable,
+      changeDrawableColor,
+    } = draw();
 
     const backgroundSource = ref('');
     const changeBackground = (target: HTMLInputElement) => {
@@ -49,6 +33,7 @@ export default defineComponent({
         });
       }
     };
+    console.log(drawables);
     return {
       drawDrawable,
       selectDrawable,
@@ -124,6 +109,8 @@ body { margin: 0; }
   .background {
     height: 80%;
     user-select: none;
+
+    pointer-events: none;
   }
 
   .logo {
