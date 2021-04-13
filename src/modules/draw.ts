@@ -7,7 +7,8 @@ type drawable = {
   selected: boolean,
   color: string,
   relative: boolean,
-  position: { x: string, y: string, }
+  position: { x: string, y: string, },
+  size: { height: string, width: string },
 }
 
 const state = reactive({
@@ -22,6 +23,7 @@ const draw = () => {
       color: Colors.CFFFFFF,
       relative: false,
       position: { x: '', y: '' },
+      size: { height: '', width: '' },
     });
   };
 

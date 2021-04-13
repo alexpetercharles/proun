@@ -59,6 +59,7 @@ export default defineComponent({
     :color="drawable.color"
     :relative="drawable.relative"
     :position="drawable.position"
+    :size="drawable.size"
     @select="selectDrawable(drawables.indexOf(drawable))" />
   <color-bar @color="changeDrawableColor" />
   <span class="logo"><img src="./assets/tape.png" /></span>

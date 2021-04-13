@@ -18,15 +18,14 @@ export default defineComponent({
     selected: Boolean,
     color: String,
     relative: Boolean,
-    position: {
-      default: { x: 0, y: 0 },
-    },
+    position: { default: { x: 0, y: 0 } },
+    size: { default: { width: '10vh', height: '10vh' } },
   },
   setup(props) {
     const drawable = ref({} as HTMLElement);
     if (!props.relative) {
       const makeDrawable = () => {
-        makeResizable(drawable.value);
+        makeResizable(drawable.value, props.index);
         makeDragable(drawable.value, props.index);
         makeRotatable(drawable.value);
       };
@@ -44,7 +43,11 @@ export default defineComponent({
 <template>
   <div class="drawable" ref="drawable"
     :class="relativeClass"
-    :style="`--color: ${color}; --top: ${position.y}; --left: ${position.x}`"
+    :style="`--color: ${color};
+      --top: ${position.y};
+      --left: ${position.x};
+      --width: ${size.width};
+      --height: ${size.height}`"
     @click="$emit('select')">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" :preserveAspectRatio="shape === Shapes.Circle ? '' : 'none'">
       <rect v-if="shape === Shapes.Rectangle" class="geometry" height="100%" width="100%"/>
@@ -66,8 +69,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .drawable {
-  width: 10vh;
-  height: 10vh;
+  width: var(--width);
+  height: var(--height);
 
   position: absolute;
   top: var(--top);

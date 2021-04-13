@@ -1,6 +1,11 @@
-const makeResizable = (drawable: HTMLElement): void => {
+import { drawState } from '@/modules/draw';
+
+const makeResizable = (drawableElement: HTMLElement, i: number|undefined): void => {
+  if (i === undefined) { return; }
+  const drawable = drawState.drawables[i];
+
   const minimumSize = 20;
-  const resizers = drawable.querySelectorAll('.resizer');
+  const resizers = drawableElement.querySelectorAll('.resizer');
 
   let originalWidth: number;
   let originalHeight: number;
@@ -18,44 +23,34 @@ const makeResizable = (drawable: HTMLElement): void => {
       const width = originalWidth - (event.pageX - originalMouseX);
       const height = originalHeight - (event.pageY - originalMouseY);
       if (width > minimumSize) {
-        drawable.style.width = `${width}px`;
-        drawable.style.left = `${originalX + (event.pageX - originalMouseX)}px`;
+        drawable.size.width = `${width}px`;
+        drawable.position.x = `${originalX + (event.pageX - originalMouseX)}px`;
       }
       if (height > minimumSize) {
-        drawable.style.height = `${height}px`;
-        drawable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
-      }
-      if (drawable.classList.contains('triangle')) {
-        drawable.style.borderBottomWidth = `${height / 4}px`;
-        drawable.style.borderRightWidth = `${height / 4}px`;
-        drawable.style.borderLeftWidth = `${height / 4}px`;
+        drawable.size.height = `${height}px`;
+        drawable.position.y = `${originalY + (event.pageY - originalMouseY)}px`;
       }
     } else if (classList.includes('top-right')) {
       const width = originalWidth + (event.pageX - originalMouseX);
       const height = originalHeight - (event.pageY - originalMouseY);
-      if (width > minimumSize) { drawable.style.width = `${width}px`; }
+      if (width > minimumSize) { drawable.size.width = `${width}px`; }
       if (height > minimumSize) {
-        drawable.style.height = `${height}px`;
-        drawable.style.top = `${originalY + (event.pageY - originalMouseY)}px`;
-      }
-      if (drawable.classList.contains('triangle')) {
-        drawable.style.borderBottomWidth = `${height / 4}px`;
-        drawable.style.borderRightWidth = `${height / 4}px`;
-        drawable.style.borderLeftWidth = `${height / 4}px`;
+        drawable.size.height = `${height}px`;
+        drawable.position.y = `${originalY + (event.pageY - originalMouseY)}px`;
       }
     } else if (classList.includes('bottom-left')) {
       const height = originalHeight + (event.pageY - originalMouseY);
       const width = originalWidth - (event.pageX - originalMouseX);
-      if (height > minimumSize) { drawable.style.height = `${height}px`; }
+      if (height > minimumSize) { drawable.size.height = `${height}px`; }
       if (width > minimumSize) {
-        drawable.style.width = `${width}px`;
-        drawable.style.left = `${originalX + (event.pageX - originalMouseX)}px`;
+        drawable.size.width = `${width}px`;
+        drawable.position.x = `${originalX + (event.pageX - originalMouseX)}px`;
       }
     } else { // bottom-right
       const width = originalWidth + (event.pageX - originalMouseX);
       const height = originalHeight + (event.pageY - originalMouseY);
-      if (width > minimumSize) { drawable.style.width = `${width}px`; }
-      if (height > minimumSize) { drawable.style.height = `${height}px`; }
+      if (width > minimumSize) { drawable.size.width = `${width}px`; }
+      if (height > minimumSize) { drawable.size.height = `${height}px`; }
     }
   };
 
@@ -67,10 +62,10 @@ const makeResizable = (drawable: HTMLElement): void => {
     resizer.addEventListener('mousedown', (event) => {
       currentResizer = resizer;
       event.preventDefault();
-      originalWidth = drawable.offsetWidth;
-      originalHeight = drawable.offsetHeight;
-      originalX = drawable.getBoundingClientRect().left;
-      originalY = drawable.getBoundingClientRect().top;
+      originalWidth = drawableElement.offsetWidth;
+      originalHeight = drawableElement.offsetHeight;
+      originalX = drawableElement.getBoundingClientRect().left;
+      originalY = drawableElement.getBoundingClientRect().top;
       originalMouseX = (event as MouseEvent).pageX;
       originalMouseY = (event as MouseEvent).pageY;
       window.addEventListener('mousemove', resize);
