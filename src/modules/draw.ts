@@ -9,6 +9,7 @@ type drawable = {
   relative: boolean,
   position: { x: string, y: string, },
   size: { height: string, width: string },
+  rotation: string,
 }
 
 const state = reactive({
@@ -24,6 +25,7 @@ const draw = () => {
       relative: false,
       position: { x: '', y: '' },
       size: { height: '', width: '' },
+      rotation: '0',
     });
   };
 

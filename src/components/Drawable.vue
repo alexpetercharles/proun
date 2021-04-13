@@ -20,6 +20,7 @@ export default defineComponent({
     relative: Boolean,
     position: { default: { x: 0, y: 0 } },
     size: { default: { width: '10vh', height: '10vh' } },
+    rotation: String,
   },
   setup(props) {
     const drawable = ref({} as HTMLElement);
@@ -27,7 +28,7 @@ export default defineComponent({
       const makeDrawable = () => {
         makeResizable(drawable.value, props.index);
         makeDragable(drawable.value, props.index);
-        makeRotatable(drawable.value);
+        makeRotatable(drawable.value, props.index);
       };
       onMounted(() => { if (drawable.value) { makeDrawable(); } });
     }
@@ -47,7 +48,8 @@ export default defineComponent({
       --top: ${position.y};
       --left: ${position.x};
       --width: ${size.width};
-      --height: ${size.height}`"
+      --height: ${size.height};
+      --rotation: ${rotation}`"
     @click="$emit('select')">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" :preserveAspectRatio="shape === Shapes.Circle ? '' : 'none'">
       <rect v-if="shape === Shapes.Rectangle" class="geometry" height="100%" width="100%"/>
@@ -78,6 +80,8 @@ export default defineComponent({
 
   cursor: move;
 
+  mix-blend-mode: difference;
+
   &.relative {
     position: relative;
     top: 0;
@@ -85,6 +89,7 @@ export default defineComponent({
   }
 
   svg {
+    transform: rotate(var(--rotation));
     width: 100%;
     height: 100%;
     .geometry {

@@ -34,7 +34,6 @@ export default defineComponent({
         });
       }
     };
-    console.log(drawables);
     return {
       drawDrawable,
       selectDrawable,
@@ -60,6 +59,7 @@ export default defineComponent({
     :relative="drawable.relative"
     :position="drawable.position"
     :size="drawable.size"
+    :rotation="drawable.rotation"
     @select="selectDrawable(drawables.indexOf(drawable))" />
   <color-bar @color="changeDrawableColor" />
   <span class="logo"><img src="./assets/tape.png" /></span>
