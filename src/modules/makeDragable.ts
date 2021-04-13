@@ -1,7 +1,11 @@
-const makeDragable = (drawable: HTMLElement): void => {
+import { drawState } from '@/modules/draw';
+
+const makeDragable = (drawable: HTMLElement, i: number|undefined): void => {
   const drag = (event: MouseEvent) => {
-    drawable.style.left = `${event.pageX - (drawable.offsetWidth / 2)}px`;
-    drawable.style.top = `${event.pageY - (drawable.offsetHeight / 2)}px`;
+    if (i !== undefined) {
+      drawState.drawables[i].position.x = `${event.pageX - (drawable.offsetWidth / 2)}px`;
+      drawState.drawables[i].position.y = `${event.pageY - (drawable.offsetHeight / 2)}px`;
+    }
   };
 
   const stopDrag = () => {

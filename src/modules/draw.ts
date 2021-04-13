@@ -1,9 +1,8 @@
-import { reactive, computed } from 'vue';
+import { reactive } from 'vue';
 
 import Colors from '@/enums/Colors';
 
 type drawable = {
-  key: number,
   shape: number,
   selected: boolean,
   color: string,
@@ -16,17 +15,14 @@ const state = reactive({
 });
 
 const draw = () => {
-  let key = 0;
-
   const drawDrawable = (shape: number) => {
     state.drawables.push({
-      key,
       shape,
       selected: true,
       color: Colors.CFFFFFF,
       relative: false,
-      position: { x: '100', y: '100' },
-    }); key += 1;
+      position: { x: '', y: '' },
+    });
   };
 
   const selectDrawable = (i: number) => {
@@ -43,11 +39,10 @@ const draw = () => {
   };
 
   return {
-    drawables: computed(() => state.drawables),
     drawDrawable,
     selectDrawable,
     changeDrawableColor,
   };
 };
 
-export default draw;
+export { draw, state as drawState };

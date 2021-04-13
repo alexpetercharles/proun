@@ -1,11 +1,11 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 
 import ToolBar from '@/components/ToolBar.vue';
 import ColorBar from '@/components/ColorBar.vue';
 import Drawable from '@/components/Drawable.vue';
 
-import draw from '@/modules/draw';
+import { draw, drawState } from '@/modules/draw';
 
 export default defineComponent({
   name: 'App',
@@ -16,11 +16,12 @@ export default defineComponent({
   },
   setup() {
     const {
-      drawables,
       drawDrawable,
       selectDrawable,
       changeDrawableColor,
     } = draw();
+
+    const drawables = computed(() => drawState.drawables);
 
     const backgroundSource = ref('');
     const changeBackground = (target: HTMLInputElement) => {
@@ -51,12 +52,14 @@ export default defineComponent({
   <span class="title"><h1>proun</h1></span>
   <img class="background" :src="backgroundSource" />
   <drawable v-for="drawable in drawables"
-    v-bind:key="drawable.key"
+    :key="drawables.indexOf(drawable)"
+    :index="drawables.indexOf(drawable)"
     :shape="drawable.shape"
     :selected="drawable.selected"
     :color="drawable.color"
     :relative="drawable.relative"
-    @select="selectDrawable(drawable.key)" />
+    :position="drawable.position"
+    @select="selectDrawable(drawables.indexOf(drawable))" />
   <color-bar @color="changeDrawableColor" />
   <span class="logo"><img src="./assets/tape.png" /></span>
 </template>

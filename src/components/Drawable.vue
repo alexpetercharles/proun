@@ -13,25 +13,28 @@ import Shapes from '@/enums/Shapes';
 export default defineComponent({
   name: 'Drawable',
   props: {
+    index: Number,
     shape: Number,
     selected: Boolean,
     color: String,
     relative: Boolean,
+    position: {
+      default: { x: 0, y: 0 },
+    },
   },
   setup(props) {
     const drawable = ref({} as HTMLElement);
     if (!props.relative) {
       const makeDrawable = () => {
         makeResizable(drawable.value);
-        makeDragable(drawable.value);
+        makeDragable(drawable.value, props.index);
         makeRotatable(drawable.value);
       };
       onMounted(() => { if (drawable.value) { makeDrawable(); } });
     }
-    const position = computed(() => (props.relative ? 'relative' : ''));
     return {
       drawable,
-      position,
+      relativeClass: computed(() => (props.relative ? 'relative' : '')),
       Shapes,
     };
   },
@@ -40,10 +43,10 @@ export default defineComponent({
 
 <template>
   <div class="drawable" ref="drawable"
-    :class="position"
-    :style="`--color: ${color}`"
+    :class="relativeClass"
+    :style="`--color: ${color}; --top: ${position.y}; --left: ${position.x}`"
     @click="$emit('select')">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" :preserveAspectRatio="shape === Shapes.Circle ? 'align' : 'none'">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" :preserveAspectRatio="shape === Shapes.Circle ? '' : 'none'">
       <rect v-if="shape === Shapes.Rectangle" class="geometry" height="100%" width="100%"/>
       <circle v-if="shape === Shapes.Circle" cx="500" cy="500" r="500" class="geometry" />
       <polygon v-if="shape === Shapes.Triangle" class="geometry"
@@ -67,8 +70,8 @@ export default defineComponent({
   height: 10vh;
 
   position: absolute;
-  top: 30vh;
-  left: 30vh;
+  top: var(--top);
+  left: var(--left);
 
   cursor: move;
 
