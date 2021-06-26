@@ -1,9 +1,9 @@
 {
   "name": "proun",
-  "author": "alex peter charles lehmann",
-  "description": "lexibois kunst tool",
   "version": "1.0.0",
   "private": true,
+  "description": "lexibois kunst tool",
+  "author": "alex peter charles lehmann",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -17,7 +17,8 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "firebase": "^9.0.0-beta.2",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",
@@ -25,6 +26,7 @@
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
