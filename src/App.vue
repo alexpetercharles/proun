@@ -85,7 +85,8 @@ body { margin: 0; }
 
   color: white;
 
-  background-color: black;
+  background: url(assets/background-min.png);
+  background-size: cover;
 
   overflow: hidden;
 
