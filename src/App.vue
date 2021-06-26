@@ -62,7 +62,6 @@ export default defineComponent({
     :rotation="drawable.rotation"
     @select="selectDrawable(drawables.indexOf(drawable))" />
   <color-bar @color="changeDrawableColor" />
-  <span class="logo"><img src="./assets/tape.png" /></span>
 </template>
 
 <style lang="scss">
