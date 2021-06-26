@@ -1,11 +1,13 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import {
+  defineComponent, ref, computed, onMounted,
+} from 'vue';
 
 import ToolBar from '@/components/ToolBar.vue';
 import ColorBar from '@/components/ColorBar.vue';
 import Drawable from '@/components/Drawable.vue';
 
-import { draw, drawState } from '@/modules/draw';
+import { draw, drawState } from '@/modules/useDraw';
 
 export default defineComponent({
   name: 'App',
@@ -34,6 +36,13 @@ export default defineComponent({
         });
       }
     };
+
+    onMounted(() => {
+      document.addEventListener('touchmove', (event: TouchEvent) => {
+        event.preventDefault();
+      }, { passive: false });
+    });
+
     return {
       drawDrawable,
       selectDrawable,
@@ -62,7 +71,6 @@ export default defineComponent({
     :rotation="drawable.rotation"
     @select="selectDrawable(drawables.indexOf(drawable))" />
   <color-bar @color="changeDrawableColor" />
-  <span class="logo"><img src="./assets/tape.png" /></span>
 </template>
 
 <style lang="scss">

@@ -4,11 +4,8 @@ import {
   defineComponent, onMounted, ref,
 } from 'vue';
 
-import makeResizable from '@/modules/makeResizable';
-import makeDragable from '@/modules/makeDragable';
-import makeRotatable from '@/modules/makeRotatable';
-
 import Shapes from '@/enums/Shapes';
+import makeDrawable from '@/modules/makeDrawable';
 
 export default defineComponent({
   name: 'Drawable',
@@ -25,12 +22,7 @@ export default defineComponent({
   setup(props) {
     const drawable = ref({} as HTMLElement);
     if (!props.relative) {
-      const makeDrawable = () => {
-        makeResizable(drawable.value, props.index);
-        makeDragable(drawable.value, props.index);
-        makeRotatable(drawable.value, props.index);
-      };
-      onMounted(() => { if (drawable.value) { makeDrawable(); } });
+      onMounted(() => { if (drawable.value) { makeDrawable(drawable.value); } });
     }
     return {
       drawable,
@@ -43,13 +35,8 @@ export default defineComponent({
 
 <template>
   <div class="drawable" ref="drawable"
-    :class="relativeClass"
-    :style="`--color: ${color};
-      --top: ${position.y ?? '0'};
-      --left: ${position.x ?? '0'};
-      --width: ${size.width};
-      --height: ${size.height};
-      --rotation: ${rotation}`"
+    :class="`${relativeClass} ${selected ? 'selected': ''}`"
+    :style="`--color: ${color};`"
     @click="$emit('select')">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" :preserveAspectRatio="shape === Shapes.Circle ? '' : 'none'">
       <rect v-if="shape === Shapes.Rectangle" class="geometry" height="100%" width="100%"/>
@@ -59,33 +46,29 @@ export default defineComponent({
       <polygon v-if="shape === Shapes.Rombus" class="geometry"
         points="352.732 203.897 946 203.897 648.155 794.743 54.888 794.743 352.732 203.897"/>
     </svg>
-    <div class="resizers" v-show="selected">
-      <div class="resizer tool top-left" />
-      <div class="resizer tool top-right" />
-      <div class="resizer tool bottom-left" />
-      <div class="resizer tool bottom-right" />
-    </div>
-    <div class="rotator tool" v-show="selected" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .drawable {
-  width: var(--width);
-  height: var(--height);
-
   position: absolute;
-  top: var(--top);
-  left: var(--left);
 
   cursor: move;
 
   mix-blend-mode: difference;
 
+  box-sizing: border-box;
+
   &.relative {
     position: relative;
     top: 0;
     left: 0;
+  }
+
+  &.selected {
+    svg {
+      outline: 3px solid #2D95C9;
+    }
   }
 
   svg {
@@ -96,39 +79,6 @@ export default defineComponent({
       fill: var(--color);
       mix-blend-mode: difference;
     }
-  }
-
-  .resizers {
-    width: 100%;
-    height: 100%;
-
-    .resizer {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: white;
-      border: 3px solid #4286f4;
-
-      position: absolute;
-
-      &.top-left { left: -5px; top: -5px; cursor: nwse-resize; }
-      &.top-right { right: -5px; top: -5px; cursor: nesw-resize; }
-      &.bottom-left { left: -5px; bottom: -5px; cursor: nesw-resize; }
-      &.bottom-right { right: -5px; bottom: -5px; cursor: nwse-resize; }
-    }
-  }
-
-  .rotator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #4286f4;
-    border: 3px solid #4286f4;
-
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    cursor: crosshair;
   }
 }
 </style>
