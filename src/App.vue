@@ -48,7 +48,7 @@ export default defineComponent({
 
 <template>
   <tool-bar @draw="drawDrawable" @background-change="changeBackground"  />
-  <span class="title"><h1>proun</h1></span>
+  <span class="title"><h1>pro_un</h1></span>
   <img class="background" :src="backgroundSource" />
   <drawable v-for="drawable in drawables"
     :key="drawables.indexOf(drawable)"
@@ -118,10 +118,11 @@ body { margin: 0; }
   }
 
   .logo {
-    height: 25px;
+    height: 10px;
     position: absolute;
     right: 15px;
-    bottom: 15px;
+    bottom: 20px;
+
     img {
       height: 100%;
     }
