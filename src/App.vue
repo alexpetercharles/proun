@@ -1,11 +1,12 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 
+import Presentation from '@/components/Presentation.vue';
 import ToolBar from '@/components/ToolBar.vue';
 import ColorBar from '@/components/ColorBar.vue';
 import Drawable from '@/components/Drawable.vue';
 
-import { draw, drawState } from '@/modules/draw';
+import { draw, drawState } from '@/modules/useDraw';
 
 export default defineComponent({
   name: 'App',
@@ -13,6 +14,7 @@ export default defineComponent({
     ToolBar,
     ColorBar,
     Drawable,
+    Presentation,
   },
   setup() {
     const {
@@ -47,6 +49,7 @@ export default defineComponent({
 </script>
 
 <template>
+  <presentation />
   <tool-bar @draw="drawDrawable" @background-change="changeBackground"  />
   <span class="title"><h1>pro_un</h1></span>
   <img class="background" :src="backgroundSource" />

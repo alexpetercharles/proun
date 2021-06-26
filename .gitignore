@@ -28,3 +28,4 @@ pnpm-debug.log*
 
 hosting*
 firebase-debug.log
+firebase.config.js

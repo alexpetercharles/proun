@@ -1,4 +1,4 @@
-import { drawState } from '@/modules/draw';
+import { drawState } from '@/modules/useDraw';
 
 const makeDragable = (drawableElement: HTMLElement, i: number|undefined): void => {
   if (i === undefined) { return; }
