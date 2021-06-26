@@ -45,8 +45,8 @@ export default defineComponent({
   <div class="drawable" ref="drawable"
     :class="relativeClass"
     :style="`--color: ${color};
-      --top: ${position.y};
-      --left: ${position.x};
+      --top: ${position.y ?? '0'};
+      --left: ${position.x ?? '0'};
       --width: ${size.width};
       --height: ${size.height};
       --rotation: ${rotation}`"
