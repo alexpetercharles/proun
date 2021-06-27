@@ -18,7 +18,7 @@ export default defineComponent({
     Presentation,
   },
   setup() {
-    const presentationStep = 50;
+    const presentationStep = 3;
     const {
       drawDrawable,
       selectDrawable,

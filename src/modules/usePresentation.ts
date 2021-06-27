@@ -12,6 +12,7 @@ const stateDocument = doc(firestore, 'state', 'presentation');
 // step callback auto update
 onSnapshot(stateDocument, (document) => {
   state.step = (document.data() as any).step;
+  console.log(state.step);
 });
 
 const usePresentation = () => {
