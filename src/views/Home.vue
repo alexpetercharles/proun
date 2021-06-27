@@ -7,6 +7,7 @@ import ColorBar from '@/components/ColorBar.vue';
 import Drawable from '@/components/Drawable.vue';
 
 import { draw, drawState } from '@/modules/useDraw';
+import usePresentation from '@/modules/usePresentation';
 
 export default defineComponent({
   name: 'App',
@@ -17,6 +18,7 @@ export default defineComponent({
     Presentation,
   },
   setup() {
+    const presentationStep = 50;
     const {
       drawDrawable,
       selectDrawable,
@@ -24,6 +26,8 @@ export default defineComponent({
     } = draw();
 
     const drawables = computed(() => drawState.drawables);
+
+    const { state: presentationState } = usePresentation();
 
     const backgroundSource = ref('');
     const changeBackground = (target: HTMLInputElement) => {
@@ -43,6 +47,8 @@ export default defineComponent({
       drawables,
       changeBackground,
       backgroundSource,
+      presentationState,
+      presentationStep,
     };
   },
 });
@@ -50,9 +56,11 @@ export default defineComponent({
 
 <template>
   <presentation />
-  <tool-bar @draw="drawDrawable" @background-change="changeBackground"  />
-  <span class="title"><h1>pro_un</h1></span>
   <img class="background" :src="backgroundSource" />
+  <tool-bar @draw="drawDrawable" @background-change="changeBackground"
+    v-if="presentationState.step === presentationStep" />
+  <span class="title"  v-if="presentationState.step === presentationStep" ><h1>pro_un</h1></span>
+  <div v-if="presentationState.step === presentationStep" >
   <drawable v-for="drawable in drawables"
     :key="drawables.indexOf(drawable)"
     :index="drawables.indexOf(drawable)"
@@ -64,14 +72,15 @@ export default defineComponent({
     :size="drawable.size"
     :rotation="drawable.rotation"
     @select="selectDrawable(drawables.indexOf(drawable))" />
-  <color-bar @color="changeDrawableColor" />
+  </div>
+  <color-bar @color="changeDrawableColor" v-if="presentationState.step === presentationStep"  />
 </template>
 
 <style lang="scss" scoped>
 .title {
   position: fixed;
-  top: 30px;
-  left: 60px;
+  top: 15px;
+  left: 15px;
 }
 .background {
   height: 80%;

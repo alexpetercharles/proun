@@ -22,11 +22,11 @@ export default defineComponent({
 
 <template>
   <div class="toolbar" ref="toolbar">
-    <label class="tool file">
+    <!--<label class="tool file">
         <input type="file" accept="image/*"
           @change="$emit('background-change', $event.target)"/>
         <img src="../assets/icons/img.png" />
-    </label>
+    </label>-->
     <drawable class="tool"
       :shape="Shapes.Triangle"
       :color="Colors.CFFFFFF"

@@ -34,5 +34,12 @@ body { margin: 0; }
     font-stretch: 800%;
     margin: 0;
   }
+  h2 {
+    font-family: 'Bandeins-Strange';
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-stretch: 800%;
+    margin: 0;
+  }
 }
 </style>
